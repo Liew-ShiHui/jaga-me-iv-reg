@@ -14,7 +14,7 @@ Information:
 1. Start PostgresDB and create database ivregbackend; before connecting to that database (Command on psql terminal: \c ivregbackend)
 2. Change your password for postgresDB accordingly, if need be, in app/config/env.js file 
 3. Go to project directory for backend, eg C:/Users/User/jaga-me-iv-reg/iv-reg-backend
-4. Run command <npm install>, then <node server.js>
+4. Run command ***npm install***, then ***node server.js***
 5. Go to project directory for frontend, eg C:/Users/User/jaga-me-iv-reg/iv-reg-frontend
-6. Run command <npm install>, then <npm start>. Your browser should open up localhost:3000 after the command runs successfully.
+6. Run command ***npm install***, then ***npm start***. Your browser should open up localhost:3000 after the command runs successfully.
 
