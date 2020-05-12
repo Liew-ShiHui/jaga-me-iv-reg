@@ -7,6 +7,8 @@ const port = process.env.PORT || 5000
 app.use(bodyParser.json())
 app.use(cors())
 
+const stripe = require('stripe')('sk_test_Yu1aoCpfMvDBpmo7hp3Uc41c00bxyiSwUJ');
+
 /*
 const corsOptions = {
 	origin: 'http://localhost:8081',
@@ -46,4 +48,23 @@ var server = app.listen(port, function() {
 
 app.get("/", (req, res) => {
   res.send({ message: "We did it!" });
+});
+
+// Add endpoint to server that creates a SetupIntent
+app.post("/api/create-setup-intent", async (req,res) => {
+    // Need to create a Customer object on Stripe when a customer creates an account 
+    const customer = await stripe.customers.create({
+        name: req.body.firstName,
+        email: req.body.email,
+        phone: req.body.contactNumber
+    });
+
+    // Create a SetupIntent to represents intent to set up a customer’s card for future payments.
+    const intent = await stripe.setupIntents.create({
+        customer: customer.id,
+    });
+
+    res.send({
+        clientSecret: intent.client_secret
+    });
 });

@@ -8,13 +8,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from '../axios';
 import logo from '../resources/logo.pink.large.png';
+import CardSetupForm from './CardSetupForm';
 
 export class Confirm extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            consent: false
+            consent: false,
+            newCustomer: null,
+            signUpSuccessful: false
         }
     }
 
@@ -24,10 +27,18 @@ export class Confirm extends Component {
             alert('Please check the consent checkbox before proceeding');
         } else {
             // process registration form to create new customer
-            axios.post("/customers", this.props.values).then( response => {
+            axios.post("/customers", this.props.values)
+            .then( response => {
                 console.log(response.data);
+                this.setState({
+                    newCustomer: response.data,
+                    signUpSuccessful: true
+                })
+            })
+            .catch(err => {
+                console.log(err);
             });
-            this.props.nextStep();
+            //this.props.nextStep();
         }
     }
 
@@ -41,8 +52,8 @@ export class Confirm extends Component {
     }
 
     render() {
-        return (
-
+        if (!this.state.signUpSuccessful) {
+            return (
             <MuiThemeProvider>
                 <React.Fragment>
 
@@ -76,7 +87,27 @@ export class Confirm extends Component {
 
                 </React.Fragment>
             </MuiThemeProvider>
-        );
+            );
+        } else {
+            // when sign up is successful, proceed to Stripe page
+            return (
+                <MuiThemeProvider>
+                    <React.Fragment>
+
+                        <AppBar position="static">
+                            <Toolbar>
+                                <Typography noWrap><img src={logo} alt="Jaga-me logo" style={{width: "10%", marginLeft: "10px", marginRight: "10px"}}/>
+                                    One more step! Please key in your credit card details so that we can serve you better next time</Typography>
+                            </Toolbar>
+                        </AppBar>
+                        <br />
+
+                        <CardSetupForm customer={this.state.newCustomer} />
+
+                    </React.Fragment>
+                </MuiThemeProvider>
+            );
+        }        
     }
 }
 
