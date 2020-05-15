@@ -3,6 +3,7 @@
 Technology stack:
 - Backend: Use of Node.js Express to export REST apis, and interact with PostgreSQL database using Sequelize Object Relational Mapper
 - Frontend: ReactJS to build reusable UI components, along with Material-UI. Use of axios to send HTTP requests and retrieve HTTP responses
+- Integration with 3rd party service(s): Stripe for saving of credit card details
 
 Information:
 + This application consists of a registration page, where user fills in the required details via a multi-step form. Upon completing the form and submitting it, a new customer will be created in postgresDB. Note that there is no form validation.
